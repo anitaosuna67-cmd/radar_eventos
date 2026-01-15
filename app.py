@@ -1,4 +1,3 @@
-python
 import streamlit as st
 import feedparser
 import pandas as pd
@@ -103,4 +102,5 @@ if st.button("🔄 ESCANEAR MERCADO AHORA"):
             mime="text/csv",
         )
     else:
+
         st.warning("No hay novedades recientes en los radares.")
