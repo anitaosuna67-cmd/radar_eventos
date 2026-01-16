@@ -172,6 +172,11 @@ with tab2:
 # TAB 3: TENDENCIAS SOCIALES & TECH (EL CEREBRO)
 # ==========================================
 with tab3:
+    # --- CORRECCIÓN: CALCULAMOS LA FECHA ACÁ MISMO PARA QUE NO FALLE ---
+    hoy = datetime.now()
+    hace_una_semana = (hoy - timedelta(days=7)).strftime('%Y-%m-%d')
+    # -------------------------------------------------------------------
+
     col_social, col_tech = st.columns([1, 1])
 
     # --- COLUMNA IZQUIERDA: REDES SOCIALES ---
@@ -179,13 +184,12 @@ with tab3:
         st.subheader("🔥 PULSO SOCIAL (Filtro 7 Días)")
         st.markdown("Búsquedas forzadas a la última semana para detectar quejas o hype.")
         
-        # Twitter con filtro de fecha dinámico (Calculado por Python)
-        # Esto asegura que siempre busque desde hace 7 días hasta hoy.
-        tw_query = f"entradas argentina since:{hace_una_semana}"
+        # Twitter con filtro de fecha dinámico
+        tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
         url_tw = f"https://twitter.com/search?q={tw_query}&src=typed_query&f=live"
         st.link_button("🐦 X: QUEJAS & HYPE (SEM)", url_tw)
         
-        # TikTok (Link directo a búsqueda fresca)
+        # TikTok
         url_tk = "https://www.tiktok.com/search?q=recitales%20argentina%202026&t=1705000000000&publish_time=7"
         st.link_button("🎵 TIKTOK: TRENDS (7 DÍAS)", url_tk)
 
@@ -199,51 +203,31 @@ with tab3:
         st.markdown("Monitor de cambios en plataformas publicitarias (Meta/Google).")
 
         # RSS ESPECÍFICO DE MARKETING DIGITAL & TECH
-        # Busca noticias de "Meta Ads", "Google Ads", "Algoritmos" de los últimos 15 días.
         url_tech = "https://news.google.com/rss/search?q=Novedades+Meta+Ads+Google+Ads+Algoritmo+Instagram+Marketing+Digital+when:15d&hl=es-419&gl=AR&ceid=AR:es-419"
         
         try:
             feed_tech = feedparser.parse(url_tech)
             
-            # Si encuentra noticias, mostramos las 5 más recientes
             if feed_tech.entries:
                 count = 0
                 for entry in feed_tech.entries:
-                    if count >= 5: break # Límite de 5 noticias para no saturar
+                    if count >= 5: break
                     
-                    # Formateo de fecha lindo
                     try:
                         dt = datetime(*entry.published_parsed[:6])
                         fecha_str = dt.strftime("%d/%m")
                     except:
                         fecha_str = "Hoy"
 
-                    # TARJETA DE NOTICIA (Estilo Alerta)
                     st.info(f"📅 **{fecha_str}** | {entry.title}\n\n[🔗 Leer Fuente Oficial]({entry.link})")
                     count += 1
             else:
-                # Si justo hoy no hay noticias, mostramos este backup para que no quede vacío
                 st.warning("⚠️ No se detectaron cambios masivos en las últimas horas.")
                 st.markdown("👉 [Ver Estado de Meta Ads (Oficial)](https://status.fb.com/)")
                 st.markdown("👉 [Ver Blog de Google Ads](https://blog.google/products/ads-commerce/)")
 
         except Exception as e:
             st.error("Error conectando con el radar tech. Revisa tu conexión.")
-    st.divider()
-    st.markdown("### 📢 TOP INFLUENCERS SECTORIALES")
-    
-    influencers = [
-        ("POGOPEDIA", "https://www.instagram.com/pogopedia/"),
-        ("RECITALES.ARG", "https://www.instagram.com/recitales.arg/"),
-        ("INDIE HOY", "https://www.instagram.com/indiehoy/"),
-        ("FILO NEWS", "https://www.instagram.com/filonewsok/"),
-        ("BILLBOARD AR", "https://www.instagram.com/billboardar/")
-    ]
-    
-    cols_inf = st.columns(len(influencers))
-    for i, (nombre, link) in enumerate(influencers):
-        with cols_inf[i]:
-            st.link_button(nombre, link)
 
 # ==========================================
 # TAB 4: MAPA DE CAZA (LEADS)
@@ -372,6 +356,7 @@ with tab4:
    
             
            
+
 
 
 
