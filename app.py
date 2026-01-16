@@ -70,6 +70,14 @@ st.markdown("""
 
 if not check_password():
     st.stop()
+    
+# --- FUNCIÓN HELPER PARA BOTONES SEGUROS ---
+def boton_link(texto, url):
+    # Esta función crea un botón HTML que fuerza abrir en nueva pestaña (target="_blank")
+    st.markdown(f'<a href="{url}" target="_blank" class="passline-btn">{texto}</a>', unsafe_allow_html=True)
+
+if not check_password():
+    st.stop()
 
 # ==========================================
 # HEADER
@@ -428,6 +436,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
