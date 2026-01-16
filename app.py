@@ -211,65 +211,55 @@ with tab2:
             st.warning("Sin noticias nuevas en este barrido.")
 
 # ==========================================
-# TAB 3: TENDENCIAS SOCIALES & TECH (EL CEREBRO)
+# TAB 3: TENDENCIAS SOCIALES & TECH
 # ==========================================
 with tab3:
-    # --- CORRECCIÓN: CALCULAMOS LA FECHA ACÁ MISMO PARA QUE NO FALLE ---
+    # 1. CÁLCULO DE FECHA (Para obligar al buscador a traer data nueva)
     hoy = datetime.now()
     hace_una_semana = (hoy - timedelta(days=7)).strftime('%Y-%m-%d')
-    # -------------------------------------------------------------------
 
     col_social, col_tech = st.columns([1, 1])
 
-    # --- COLUMNA IZQUIERDA: REDES SOCIALES ---
     with col_social:
-        st.subheader("🔥 PULSO SOCIAL (Filtro 7 Días)")
-        st.markdown("Búsquedas forzadas a la última semana para detectar quejas o hype.")
+        st.subheader("🔥 PULSO SOCIAL (Filtro: Últimos 7 Días)")
         
-        # Twitter con filtro de fecha dinámico
+        # TWITTER FIX: 
+        # Agregamos 'f=live' para ir a la pestaña 'Más Reciente'.
+        # Usamos .replace(" ", "%20") para asegurar que el link sea válido.
         tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
-        url_tw = f"https://twitter.com/search?q={tw_query}&src=typed_query&f=live"
-        st.link_button("🐦 X: QUEJAS & HYPE (SEM)", url_tw)
+        tw_url_encoded = tw_query.replace(" ", "%20")
+        url_tw = f"https://twitter.com/search?q={tw_url_encoded}&src=typed_query&f=live"
         
-        # TikTok
-        url_tk = "https://www.tiktok.com/search?q=recitales%20argentina%202026&t=1705000000000&publish_time=7"
-        st.link_button("🎵 TIKTOK: TRENDS (7 DÍAS)", url_tk)
+        boton_link("🐦 X (TWITTER): VER 'MÁS RECIENTES'", url_tw)
+        
+        # TIKTOK FIX:
+        # Agregamos '&publish_time=7' que es el filtro de "Esta Semana".
+        url_tk = "https://www.tiktok.com/search?q=recitales%20argentina%202026&publish_time=7"
+        boton_link("🎵 TIKTOK: VIDEOS DE ESTA SEMANA", url_tk)
 
         st.divider()
-        st.markdown("**Accesos Rápidos a Hashtags:**")
-        st.markdown("[#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/) | [#Eventos](https://www.instagram.com/explore/tags/eventos/) | [#Entradas](https://www.instagram.com/explore/tags/entradas/)")
+        st.markdown("**Hashtags Clave:** [#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/)")
 
-    # --- COLUMNA DERECHA: RADAR TECH (META / GOOGLE) ---
     with col_tech:
-        st.subheader("🤖 ALGORITMOS & ADS (Radar Táctico)")
-        st.markdown("Monitor de cambios en plataformas publicitarias (Meta/Google).")
-
-        # RSS ESPECÍFICO DE MARKETING DIGITAL & TECH
+        st.subheader("🤖 RADAR TECH & ADS")
+        
         url_tech = "https://news.google.com/rss/search?q=Novedades+Meta+Ads+Google+Ads+Algoritmo+Instagram+Marketing+Digital+when:15d&hl=es-419&gl=AR&ceid=AR:es-419"
         
         try:
             feed_tech = feedparser.parse(url_tech)
-            
             if feed_tech.entries:
-                count = 0
-                for entry in feed_tech.entries:
-                    if count >= 5: break
-                    
+                for entry in feed_tech.entries[:4]: 
                     try:
                         dt = datetime(*entry.published_parsed[:6])
-                        fecha_str = dt.strftime("%d/%m")
-                    except:
-                        fecha_str = "Hoy"
-
-                    st.info(f"📅 **{fecha_str}** | {entry.title}\n\n[🔗 Leer Fuente Oficial]({entry.link})")
-                    count += 1
+                        f_str = dt.strftime("%d/%m")
+                    except: f_str = "Hoy"
+                    
+                    st.info(f"📅 **{f_str}** | {entry.title}\n\n[🔗 Leer]({entry.link})")
             else:
-                st.warning("⚠️ No se detectaron cambios masivos en las últimas horas.")
-                st.markdown("👉 [Ver Estado de Meta Ads (Oficial)](https://status.fb.com/)")
-                st.markdown("👉 [Ver Blog de Google Ads](https://blog.google/products/ads-commerce/)")
-
-        except Exception as e:
-            st.error("Error conectando con el radar tech. Revisa tu conexión.")
+                st.warning("Sin cambios de algoritmo reportados.")
+                st.markdown("[Status Meta Ads](https://status.fb.com/)")
+        except:
+            st.write("Error conectando con radar tech.")
 
 # ==========================================
 # TAB 4: MAPA DE CAZA (LEADS)
@@ -436,6 +426,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
