@@ -90,7 +90,11 @@ tab1, tab2, tab3, tab4 = st.tabs([
 # ==========================================
 with tab1:
     st.subheader("🏆 VALOR TOTAL DE MERCADO (Estimación Ticketing AR)")
-    
+    st.markdown("> *🔍 Fuentes de Datos: Pollstar Global Pulse, SimilarWeb Traffic Analysis & Reportes CAPIF (Estimaciones Q1 2026).*")
+    # -------------------------------
+
+    # KPIs Generales...
+    c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
     # KPIs Generales (Simulación basada en industria)
     c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
     c_kpi1.metric("Volumen Anual Mercado", "$280.000 M", "ARS (Est.)")
@@ -195,7 +199,7 @@ with tab3:
 
         st.divider()
         st.markdown("**Accesos Rápidos a Hashtags:**")
-        st.markdown("[#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/) | [#LollapaloozaAR](https://www.instagram.com/explore/tags/lollapaloozaar/) | [#CampoArgentinoDePolo](https://www.instagram.com/explore/tags/campoargentinodepolo/)")
+        st.markdown("[#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/) | [#Eventos](https://www.instagram.com/explore/tags/eventos/) | [#Entradas](https://www.instagram.com/explore/tags/entradas/)")
 
     # --- COLUMNA DERECHA: RADAR TECH (META / GOOGLE) ---
     with col_tech:
@@ -356,6 +360,7 @@ with tab4:
    
             
            
+
 
 
 
