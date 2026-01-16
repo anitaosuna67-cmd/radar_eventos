@@ -1,7 +1,8 @@
+python
 import streamlit as st
 import feedparser
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # --- SEGURIDAD ---
 CLAVE_ACCESO = "SARAH2026"
@@ -15,84 +16,126 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.text_input("🔒 MARKET INTEL - INGRESE CLAVE:", type="password", on_change=password_entered, key="password")
+        st.markdown("<h3 style='color: #FFD700;'>🔒 PASSLINE INTEL</h3>", unsafe_allow_html=True)
+        st.text_input("INGRESE CLAVE DE ACCESO:", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
-        st.text_input("🔒 MARKET INTEL - INGRESE CLAVE:", type="password", on_change=password_entered, key="password")
+        st.text_input("INGRESE CLAVE DE ACCESO:", type="password", on_change=password_entered, key="password")
         st.error("⛔ CLAVE INCORRECTA")
         return False
     else:
         return True
 
+# --- CONFIGURACIÓN DE PÁGINA ---
+st.set_page_config(page_title="Passline Radar", layout="wide", page_icon="⚡")
+
+# --- ESTÉTICA PASSLINE (CSS) ---
+# Fondo oscuro, Botones Amarillos (#FFD700), Texto contrastado
+st.markdown("""
+    <style>
+    /* Fondo general */
+    .stApp {
+        background-color: #0E1117;
+        color: #FFFFFF;
+    }
+    /* Botones estilo Passline (Amarillo fuerte) */
+    div.stButton > button {
+        background-color: #FFD700 !important;
+        color: #000000 !important;
+        border: none;
+        font-weight: 800;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+    div.stButton > button:hover {
+        background-color: #FFC300 !important;
+        transform: scale(1.02);
+    }
+    /* Links estilo Passline */
+    a {
+        color: #FFD700 !important;
+        text-decoration: none;
+    }
+    /* Métricas */
+    div[data-testid="stMetricValue"] {
+        color: #FFD700 !important;
+    }
+    /* Tabs */
+    .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
+        background-color: #FFD700 !important;
+        color: #000000 !important;
+        font-weight: bold;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 if not check_password():
     st.stop()
 
 # ==========================================
-# UI CONFIG (NEUTRAL)
+# HEADER
 # ==========================================
-st.set_page_config(page_title="Live Ent. Intelligence", layout="wide", page_icon="📡")
-
-st.markdown("""
-<style>
-    .big-font { font-size:20px !important; }
-    div[data-testid="stMetricValue"] { font-size: 28px; color: #00FF00; }
-    /* Estilo sutil para resaltar botones importantes */
-    .stButton button { border: 1px solid #333; }
-</style>
-""", unsafe_allow_html=True)
-
-st.title("📡 LIVE ENTERTAINMENT: MARKET INTELLIGENCE")
-st.caption(f"📅 REPORTE AL: {datetime.now().strftime('%d/%m/%Y')} | 🌍 MERCADO: ARGENTINA")
+st.title("⚡ PASSLINE INTELLIGENCE")
+st.caption(f"📅 REPORTE: {datetime.now().strftime('%d/%m/%Y')} | 🌍 MERCADO: ARGENTINA")
 
 # --- PESTAÑAS ---
 tab1, tab2, tab3, tab4 = st.tabs([
-    "📊 BIG DATA & MARKET SHARE", 
-    "🗞️ NOTICIAS: MÚSICA & NEGOCIO", 
-    "📢 TOP 10 INFLUENCERS", 
-    "🎯 MAPA DE PRODUCTORAS (LEADS)"
+    "💰 MARKET SHARE & VALUACIÓN", 
+    "🗞️ NOTICIAS (REAL TIME)", 
+    "🔥 TENDENCIAS SOCIALES (7 DÍAS)", 
+    "🎯 MAPA DE CAZA (LEADS)"
 ])
 
 # ==========================================
-# TAB 1: BIG DATA
+# TAB 1: MARKET SHARE & DINERO
 # ==========================================
 with tab1:
-    st.subheader("🏆 MARKET SHARE ESTIMADO (Ticketing Argentina)")
-    st.markdown("> *Fuentes: Pollstar, SimilarWeb Traffic, CAPIF Reports.*")
+    st.subheader("🏆 VALOR TOTAL DE MERCADO (Estimación Ticketing AR)")
+    
+    # KPIs Generales (Simulación basada en industria)
+    c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
+    c_kpi1.metric("Volumen Anual Mercado", "$280.000 M", "ARS (Est.)")
+    c_kpi2.metric("Ticket Promedio", "$45.000", "+120% Inflación")
+    c_kpi3.metric("Tickets Vendidos/Año", "6.5 Millones", "Total Industria")
+
+    st.divider()
+    
+    st.subheader("📊 CUOTA DE MERCADO POR JUGADOR")
 
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("### 🥇 #1 ALL ACCESS (DF)")
-        st.metric("Cuota Mercado", "45%", "Dominante")
-        st.caption("River, Lolla, Taylor Swift. Volúmen alto, pocos eventos.")
+        st.markdown("### 🥇 ALL ACCESS (DF)")
+        st.metric("Share", "45%", "Líder")
+        st.markdown("**Facturación Est:** $126.000 M")
+        st.caption("River, Lolla, Taylor. Volumen masivo.")
 
     with col2:
-        st.markdown("### 🥈 #2 TICKETEK")
-        st.metric("Cuota Mercado", "25%", "-5% YoY")
-        st.caption("Teatros, Festivales Históricos. Gran capilaridad.")
+        st.markdown("### 🥈 TICKETEK")
+        st.metric("Share", "25%", "-5%")
+        st.markdown("**Facturación Est:** $70.000 M")
+        st.caption("Teatros, Festivales, Interior.")
 
     with col3:
-        st.markdown("### 🥉 #3 ENTRADA UNO")
-        st.metric("Cuota Mercado", "20%", "Estable")
-        st.caption("Movistar Arena. Ticket promedio alto.")
+        st.markdown("### 🥉 ENTRADA UNO")
+        st.metric("Share", "20%", "Estable")
+        st.markdown("**Facturación Est:** $56.000 M")
+        st.caption("Movistar Arena (Alta rotación).")
 
-    st.divider()
-    st.info("📉 **Insight:** El mercado de estadios está saturado. La oportunidad de crecimiento (Blue Ocean) está en el segmento de **Clubbing, Electrónica y Ciclos Indie**.")
+    st.info("⚡ **PASSLINE TARGET:** El 10% restante ($28.000 M) está fragmentado en ticketeras chicas. Ahí está nuestro crecimiento inmediato (Boliches, Indie, Fiestas).")
 
 # ==========================================
-# TAB 2: NOTICIAS FILTRADAS (Música y Negocio)
+# TAB 2: NOTICIAS (ORDENADAS)
 # ==========================================
 with tab2:
-    st.subheader("🗞️ ÚLTIMAS NOVEDADES DEL SECTOR")
+    st.subheader("🗞️ RADAR DE NOTICIAS MUSICALES")
     
-    # Filtros agresivos para solo traer música y negocio
     URLS = [
-        "https://news.google.com/rss/search?q=Recitales+Argentina+Conciertos&hl=es-419&gl=AR&ceid=AR:es-419",
-        "https://news.google.com/rss/search?q=Productoras+Espectaculos+Argentina+Negocios&hl=es-419&gl=AR&ceid=AR:es-419",
-        "https://news.google.com/rss/search?q=DF+Entertainment+Fenix+Popart+Live+Nation+Argentina&hl=es-419&gl=AR&ceid=AR:es-419"
+        "https://news.google.com/rss/search?q=Recitales+Argentina+Entradas&hl=es-419&gl=AR&ceid=AR:es-419",
+        "https://news.google.com/rss/search?q=Productoras+Eventos+Argentina&hl=es-419&gl=AR&ceid=AR:es-419"
     ]
 
-    if st.button("🔄 ESCANEAR NOTICIAS DE MÚSICA"):
+    if st.button("🔄 ACTUALIZAR PRENSA"):
         hallazgos = []
         barra = st.progress(0)
         
@@ -100,7 +143,6 @@ with tab2:
             try:
                 feed = feedparser.parse(url)
                 for entry in feed.entries:
-                    # Parsear fecha
                     try:
                         fecha_obj = datetime(*entry.published_parsed[:6])
                     except:
@@ -108,86 +150,80 @@ with tab2:
 
                     hallazgos.append({
                         "Fecha_Obj": fecha_obj,
-                        "Fecha": fecha_obj.strftime("%d/%m/%Y %H:%M"),
+                        "Fecha": fecha_obj.strftime("%d/%m %H:%M"),
                         "Titular": entry.title,
-                        "Fuente": entry.source.title if 'source' in entry else "Google",
                         "Link": entry.link
                     })
             except: pass
             barra.progress((i + 1) / len(URLS))
         
         if hallazgos:
-            # Ordenar por fecha (más nuevo primero)
             df = pd.DataFrame(hallazgos)
-            df = df.sort_values(by="Fecha_Obj", ascending=False)
+            df = df.sort_values(by="Fecha_Obj", ascending=False) # Ordenar por fecha
             
-            st.success(f"{len(df)} NOTICIAS RELEVANTES ENCONTRADAS")
             st.dataframe(
-                df[["Fecha", "Titular", "Fuente", "Link"]], 
+                df[["Fecha", "Titular", "Link"]], 
                 use_container_width=True,
-                column_config={"Link": st.column_config.LinkColumn("Leer")}
+                column_config={"Link": st.column_config.LinkColumn("Leer Nota")}
             )
         else:
-            st.warning("Sin novedades recientes en el radar musical.")
+            st.warning("Sin noticias nuevas en este barrido.")
 
 # ==========================================
-# TAB 3: INFLUENCERS (JERARQUÍA)
+# TAB 3: TENDENCIAS (7 DÍAS)
 # ==========================================
 with tab3:
-    st.subheader("📢 VOCES AUTORIZADAS (Top 10)")
-    
-    influencers = [
-        ("1. POGOPEDIA", "https://www.instagram.com/pogopedia/", "La Biblia del público joven."),
-        ("2. FILO NEWS", "https://www.instagram.com/filonewsok/", "Agenda masiva y lanzamientos."),
-        ("3. RECITALES.ARG", "https://www.instagram.com/recitales.arg/", "Calendario duro de fechas."),
-        ("4. BILLBOARD AR", "https://www.instagram.com/billboardar/", "Voz de la industria."),
-        ("5. ROLLING STONE AR", "https://www.instagram.com/rollingstonear/", "Prestigio."),
-        ("6. INDIE HOY", "https://www.instagram.com/indiehoy/", "Clave para el nicho alternativo."),
-        ("7. SILENCIO", "https://www.instagram.com/silenciorock/", "Periodismo musical."),
-        ("8. GENERACIÓN B", "https://www.instagram.com/generacionb/", "Entrevistas y digital."),
-        ("9. QUIERO MÚSICA", "https://www.instagram.com/quieromusicatv/", "Público tradicional."),
-        ("10. TU MÚSICA HOY", "https://www.instagram.com/tumusicahoy/", "Urbano y Pop.")
-    ]
+    st.subheader("🔥 TERMÓMETRO SOCIAL (Última Semana)")
+    st.markdown("Búsquedas filtradas para detectar tendencias recientes.")
 
-    for nombre, link, desc in influencers:
-        c1, c2 = st.columns([1, 3])
-        c1.link_button(f"👉 {nombre}", link)
-        c2.write(f"*{desc}*")
-        st.divider()
-
-# ==========================================
-# TAB 4: MAPA DE COMPETENCIA & LEADS
-# ==========================================
-with tab4:
-    st.subheader("🎯 MAPA DE ACTORES Y PROSPECTOS")
+    c1, c2 = st.columns(2)
     
-    st.markdown("### 🔭 TICKETERAS ACTIVAS (Competencia)")
-    c_a, c_b, c_c = st.columns(3)
-    with c_a:
-        st.markdown("**Tier 1 (Gigantes)**")
-        st.link_button("AllAccess", "https://www.allaccess.com.ar/")
-        st.link_button("Ticketek", "https://www.ticketek.com.ar/")
-        st.link_button("Movistar Arena", "https://www.movistararena.com.ar/")
-    with c_b:
-        st.markdown("**Tier 2 (Nicho/Emergente)**")
-        st.link_button("PASSLINE", "https://home.passline.com/")
-        st.link_button("Alpogo", "https://alpogo.com/")
-        st.link_button("Venti", "https://venti.com.ar/")
-    with c_c:
-        st.markdown("**Tier 3 (Regionales)**")
-        st.link_button("Ticketportal", "https://www.ticketportal.com.ar/")
-        st.link_button("EntradaWeb", "https://www.entradaweb.com.ar/")
+    with c1:
+        st.markdown("### 📱 TIKTOK & INSTAGRAM")
+        # Links con filtros de fecha (donde es posible)
+        url_tk = "https://www.tiktok.com/search?q=recitales%20argentina&t=1705000000000&publish_time=7" # Filtro 7 días
+        st.link_button("🎵 TIKTOK: TENDENCIAS (7 DÍAS)", url_tk)
+        
+        url_ig = "https://www.instagram.com/explore/tags/recitalesargentina/"
+        st.link_button("📸 INSTAGRAM: HASHTAG RECIENTE", url_ig)
+
+    with c2:
+        st.markdown("### 🐦 X (TWITTER) - EL PULSO")
+        # Filtro 'f=live' muestra lo último
+        url_tw = "https://twitter.com/search?q=entradas%20argentina%20(precio%20OR%20fila%20virtual)&src=typed_query&f=live"
+        st.link_button("🐦 VER QUEJAS EN TIEMPO REAL", url_tw)
 
     st.divider()
+    st.markdown("### 📢 TOP INFLUENCERS SECTORIALES")
+    
+    influencers = [
+        ("POGOPEDIA", "https://www.instagram.com/pogopedia/"),
+        ("RECITALES.ARG", "https://www.instagram.com/recitales.arg/"),
+        ("INDIE HOY", "https://www.instagram.com/indiehoy/"),
+        ("FILO NEWS", "https://www.instagram.com/filonewsok/"),
+        ("BILLBOARD AR", "https://www.instagram.com/billboardar/")
+    ]
+    
+    cols_inf = st.columns(len(influencers))
+    for i, (nombre, link) in enumerate(influencers):
+        with cols_inf[i]:
+            st.link_button(nombre, link)
 
-    st.subheader("📋 LISTA DE CAZA: 100 PRODUCTORAS & CICLOS (Leads)")
-    st.markdown("Listado de objetivos comerciales potenciales (Productoras, Venues y Fiestas que operan en Argentina).")
+# ==========================================
+# TAB 4: MAPA DE CAZA (LEADS)
+# ==========================================
+with tab4:
+    st.subheader("🎯 OBJETIVOS COMERCIALES (100 PRODUCTORAS)")
+    st.markdown("Lista de prospectos para contactar. **Objetivo: Migrar a Passline.**")
 
-    with st.expander("🔥 VER LISTADO COMPLETO DE TARGETS (Click para desplegar)"):
-        col_prods_1, col_prods_2, col_prods_3 = st.columns(3)
+    # Botón a Passline Admin
+    st.link_button("⚡ IR AL ADMIN DE PASSLINE", "https://home.passline.com/")
+    
+    with st.expander("📂 VER LISTADO COMPLETO (Click para abrir)"):
+        col_leads_1, col_leads_2 = st.columns(2)
         
-        with col_prods_1:
-            st.markdown("#### 🏢 MAJORS & ESTADIOS")
+        with col_leads_1:
+            st.markdown("#### 🏢 MAJORS & ROCK")
             st.write("""
             1. DF Entertainment
             2. Fenix Entertainment
@@ -207,15 +243,11 @@ with tab4:
             16. Lauria Dale Play
             17. Rimas Producciones
             18. EB Producciones
-            19. Producines de Barrio
+            19. Producciones de Barrio
             20. World Music BA
-            """)
-            
-            st.markdown("#### 🎸 INDIE / ROCK / UNDER")
-            st.write("""
             21. Geiser Discos
-            22. Niceto Club (Producción propia)
-            23. Konex (Agenda propia)
+            22. Niceto Club
+            23. Konex
             24. Camping BA
             25. CC Richards
             26. La Tangente
@@ -225,7 +257,7 @@ with tab4:
             30. El Emergente
             31. Makena Cantina Club
             32. The Roxy Live
-            33. Vorterix (Producción)
+            33. Vorterix
             34. Teatro Flores
             35. Groove
             36. Palermo Club
@@ -235,12 +267,12 @@ with tab4:
             40. Club Lucimbre
             """)
 
-        with col_prods_2:
-            st.markdown("#### 🎛️ ELECTRÓNICA & NIGHTLIFE")
+        with col_leads_2:
+            st.markdown("#### 🎛️ NOCHE & FEDERAL")
             st.write("""
-            41. BNP (Buenas Noches Producciones) - Cba
+            41. BNP (Córdoba)
             42. Crobar
-            43. Mandarine Park / Tent
+            43. Mandarine Park
             44. The Bow
             45. PM Open Air
             46. Rio Electronic Music
@@ -248,7 +280,7 @@ with tab4:
             48. Cocoliche
             49. Bahrein
             50. La Fábrica (Córdoba)
-            51. Metropolitano (Rosario - Lado B)
+            51. Metropolitano (Rosario)
             52. Desert in Me
             53. Savage
             54. BNN
@@ -263,11 +295,6 @@ with tab4:
             63. Rheo
             64. Club 69
             65. Human Club
-            """)
-
-        with col_prods_3:
-            st.markdown("#### 🎉 FIESTAS & CICLOS (High Ticket)")
-            st.write("""
             66. Fiesta Bresh
             67. Fiesta Polenta
             68. La Pardo
@@ -277,34 +304,32 @@ with tab4:
             72. Puerca
             73. Hiedrah
             74. Sudan
-            75. Duki / SSJ (Eventos propios)
-            76. YSY A / Sponsor Dios (Prod propia)
-            77. Ca7riel & Paco (Prod propia)
+            75. Duki / SSJ
+            76. YSY A / Sponsor Dios
+            77. Ca7riel & Paco
             78. Dillom / Bohemian Groove
             79. Fiesta Invasión
             80. Rose Girls
-            """)
-            
-            st.markdown("#### 🌎 FEDERAL / INTERIOR")
-            st.write("""
-            81. Plaza de la Música (Córdoba)
-            82. Quality Espacio (Córdoba)
-            83. XL Abasto (Córdoba)
-            84. Tribus Club de Arte (Santa Fe)
+            81. Plaza de la Música (Cba)
+            82. Quality Espacio (Cba)
+            83. XL Abasto (Cba)
+            84. Tribus (Santa Fe)
             85. La Sala de las Artes (Rosario)
             86. Teatro Broadway (Rosario)
-            87. Gap (Mar del Plata)
-            88. Silos Arena (Mar del Plata)
-            89. Mute (Mar del Plata)
-            90. At Park (Mar del Plata)
-            91. Auditorio Bustelo (Mendoza)
-            92. Arena Maipú (Mendoza)
-            93. Club Central Córdoba (Tucumán)
-            94. Sala del Rey (Córdoba)
+            87. Gap (MDP)
+            88. Silos Arena (MDP)
+            89. Mute (MDP)
+            90. At Park (MDP)
+            91. Auditorio Bustelo (Mza)
+            92. Arena Maipú (Mza)
+            93. Club Central Córdoba (Tuc)
+            94. Sala del Rey (Cba)
             95. Estadio Delmi (Salta)
-            96. CCP (Concepción del Uruguay)
+            96. CCP (Entre Ríos)
             97. Espacio DUAM (Neuquén)
             98. Mood Live (Neuquén)
             99. Casino Magic (Neuquén)
-            100. Boxing Club (Río Gallegos)""")
-
+            100. Boxing Club (Río Gallegos)
+            """)
+    
+   
