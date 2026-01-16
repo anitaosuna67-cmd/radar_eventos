@@ -79,11 +79,11 @@ st.caption(f"📅 REPORTE: {datetime.now().strftime('%d/%m/%Y')} | 🌍 MERCADO:
 
 # --- PESTAÑAS ---
 tab1, tab2, tab3, tab4, tab5 = st.tabs([
-    "📊 BIG DATA & MARKET SHARE", 
-    "🗞️ NOTICIAS: MÚSICA & NEGOCIO", 
-    "🔥 TENDENCIAS & TECH", 
-    "🎯 PRODUCTORAS (LEADS)",
-    "🔬 RADIOGRAFÍA DIGITAL"
+    "💰 MARKET SHARE", 
+    "🗞️ NOTICIAS", 
+    "🔥 TENDENCIAS", 
+    "🎯 LEADS",
+    "🤖 GOOGLE AI SUMMARY"
 ])
 
 # ==========================================
@@ -357,5 +357,42 @@ with tab4:
             100. Boxing Club (Río Gallegos)
             """)
 
-   
+   # ==========================================
+# TAB 5: GOOGLE AI SUMMARY (OPINIÓN DE USUARIOS)
+# ==========================================
+with tab5:
+    st.subheader("🤖 RESUMEN DE SENTIMIENTO (GOOGLE AI)")
+    st.markdown("""
+    Estos botones ejecutan preguntas diseñadas para activar el **"Resumen General con IA"** de Google sobre la experiencia de usuario.
+    *Sirve para ver rápidamente si la gente está enojada o contenta con una ticketera.*
+    """)
+
+    st.write("---")
+
+    # Lista de Ticketeras a escanear
+    targets = ["AllAccess", "Ticketek", "EntradaUno", "Passline", "Alpogo", "Venti", "TicketPortal"]
+
+    # Creamos columnas para que quede ordenado
+    c1, c2 = st.columns(2)
+
+    for i, empresa in enumerate(targets):
+        # Alternamos columnas
+        col = c1 if i % 2 == 0 else c2
+        
+        with col:
+            st.markdown(f"#### 🔎 {empresa.upper()}")
+            
+            # QUERY 1: El Resumen General
+            # "Opiniones y reseñas" suele activar el bloque de estrellas y resumen.
+            q_resumen = f"Resumen opiniones y experiencias usuarios {empresa} Argentina entradas"
+            url_resumen = f"https://www.google.com/search?q={q_resumen}"
+            st.link_button(f"🧠 VER RESUMEN IA: {empresa}", url_resumen)
+            
+            # QUERY 2: Los Problemas (Para ver el dolor del usuario)
+            q_problemas = f"Principales quejas y problemas {empresa} Argentina reclamos recientes"
+            url_problemas = f"https://www.google.com/search?q={q_problemas}"
+            st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
+            
+            st.write(" ") # Espacio
+
 
