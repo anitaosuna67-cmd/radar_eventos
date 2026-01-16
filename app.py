@@ -82,7 +82,7 @@ tab1, tab2, tab3, tab4 = st.tabs([
     "💰 MARKET SHARE & VALUACIÓN", 
     "🗞️ NOTICIAS (REAL TIME)", 
     "🔥 TENDENCIAS SOCIALES (7 DÍAS)", 
-    "🎯 MAPA DE CAZA (LEADS)"
+    "🎯 MAPA PRODUCTORAS"
 ])
 
 # ==========================================
@@ -121,7 +121,7 @@ with tab1:
         st.markdown("**Facturación Est:** $56.000 M")
         st.caption("Movistar Arena (Alta rotación).")
 
-    st.info("⚡ **PASSLINE TARGET:** El 10% restante ($28.000 M) está fragmentado en ticketeras chicas. Ahí está nuestro crecimiento inmediato (Boliches, Indie, Fiestas).")
+    st.info("⚡ **TARGET:** El 10% restante ($28.000 M) está fragmentado en ticketeras chicas. Ahí está nuestro crecimiento inmediato (Boliches, Indie, Fiestas).")
 
 # ==========================================
 # TAB 2: NOTICIAS (ORDENADAS)
@@ -168,9 +168,6 @@ with tab2:
         else:
             st.warning("Sin noticias nuevas en este barrido.")
 
-# ==========================================
-# TAB 3: TENDENCIAS (7 DÍAS)
-# ==========================================
 # ==========================================
 # TAB 3: TENDENCIAS SOCIALES & TECH (EL CEREBRO)
 # ==========================================
@@ -375,5 +372,6 @@ with tab4:
    
             
            
+
 
 
