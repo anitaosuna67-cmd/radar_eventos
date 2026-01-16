@@ -370,9 +370,13 @@ with tab5:
     st.write("---")
 
     # Lista de Ticketeras a escanear
-    targets = ["AllAccess", "Ticketek", "EntradaUno", "Passline", "Alpogo", "Venti", "TicketPortal", "EntradaWeb", "Plateanet
-        "FlashPass", "PassTicket"]
-
+    targets = [
+        "AllAccess", "Ticketek", "EntradaUno", 
+        "Passline", "Alpogo", "Venti", 
+        "TicketPortal", "EntradaWeb", "Plateanet",
+        "FlashPass", "PassTicket"
+    ]
+    
     # Creamos columnas para que quede ordenado
     c1, c2 = st.columns(2)
 
@@ -395,6 +399,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
