@@ -15,7 +15,7 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.markdown("<h3 style='color: #FFD700;'>🔒 PASSLINE INTEL</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #FFD700;'>🔒INTEL</h3>", unsafe_allow_html=True)
         st.text_input("INGRESE CLAVE DE ACCESO:", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
@@ -372,6 +372,7 @@ with tab4:
    
             
            
+
 
 
 
