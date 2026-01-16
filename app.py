@@ -181,7 +181,7 @@ with tab3:
         
         # Twitter con filtro de fecha dinámico (Calculado por Python)
         # Esto asegura que siempre busque desde hace 7 días hasta hoy.
-        tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
+        tw_query = f"entradas argentina since:{hace_una_semana}"
         url_tw = f"https://twitter.com/search?q={tw_query}&src=typed_query&f=live"
         st.link_button("🐦 X: QUEJAS & HYPE (SEM)", url_tw)
         
@@ -372,6 +372,7 @@ with tab4:
    
             
            
+
 
 
 
