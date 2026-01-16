@@ -78,11 +78,12 @@ st.title("⚡ INTELLIGENCE")
 st.caption(f"📅 REPORTE: {datetime.now().strftime('%d/%m/%Y')} | 🌍 MERCADO: ARGENTINA")
 
 # --- PESTAÑAS ---
-tab1, tab2, tab3, tab4 = st.tabs([
-    "💰 MARKET SHARE & VALUACIÓN", 
-    "🗞️ NOTICIAS (REAL TIME)", 
-    "🔥 TENDENCIAS SOCIALES (7 DÍAS)", 
-    "🎯 MAPA PRODUCTORAS"
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "📊 BIG DATA & MARKET SHARE", 
+    "🗞️ NOTICIAS: MÚSICA & NEGOCIO", 
+    "🔥 TENDENCIAS & TECH", 
+    "🎯 PRODUCTORAS (LEADS)",
+    "🔬 RADIOGRAFÍA DIGITAL"
 ])
 
 # ==========================================
@@ -356,10 +357,58 @@ with tab4:
             100. Boxing Club (Río Gallegos)
             """)
 
-    
+    # ==========================================
+# TAB 5: RADIOGRAFÍA DIGITAL (GOOGLE X-RAY)
+# ==========================================
+with tab5:
+    st.subheader("🔬 AUDITORÍA DE REPUTACIÓN & ESTRUCTURA")
+    st.markdown("Motores de búsqueda profunda para ver qué dice Google, LinkedIn y la Justicia sobre cada jugador.")
+
+    # Lista de Objetivos para auditar
+    targets = [
+        ("DF ENTERTAINMENT (AllAccess)", "DF Entertainment Diego Finkelstein"),
+        ("TICKETEK (PopArt)", "Ticketek Argentina Popart Music"),
+        ("ENTRADA UNO", "Entrada Uno Movistar Arena"),
+        ("PASSLINE (Nosotros - Control)", "Passline Argentina"),
+        ("ALPOGO", "Alpogo Tickets Córdoba")
+    ]
+
+    for empresa, query in targets:
+        with st.expander(f"🔎 ANALIZAR: {empresa}", expanded=False):
+            c1, c2, c3, c4 = st.columns(4)
+            
+            # 1. PERFIL CORPORATIVO
+            with c1:
+                st.markdown("**🏢 ESTRUCTURA**")
+                url_corp = f"https://www.google.com/search?q={query}+Dueños+CUIT+LinkedIn"
+                st.link_button("Ver Dueños & Sociedades", url_corp)
+                st.caption("Busca directorios y perfiles.")
+
+            # 2. REPUTACIÓN / CRISIS
+            with c2:
+                st.markdown("**🔥 CRISIS & QUEJAS**")
+                # Busca palabras clave negativas
+                url_crisis = f"https://www.google.com/search?q={query}+estafa+OR+quejas+OR+denuncia+OR+defensa+consumidor"
+                st.link_button("Auditar Reclamos", url_crisis)
+                st.caption("Detecta crisis de reputación.")
+
+            # 3. NOTICIAS FINANCIERAS
+            with c3:
+                st.markdown("**💰 NEGOCIO**")
+                url_fin = f"https://www.google.com/search?q={query}+inversión+OR+facturación+OR+compras&tbm=nws"
+                st.link_button("Ver Movimientos $", url_fin)
+                st.caption("Noticias de negocios.")
+
+            # 4. TECNOLOGÍA
+            with c4:
+                st.markdown("**🤖 STACK TECH**")
+                url_tech = f"https://www.google.com/search?q=site:{query.split()[0]}.com.ar+API+OR+desarrollador+OR+tecnología"
+                st.link_button("Ver Tecnología", url_tech)
+                st.caption("Qué sistema usan.")
    
             
            
+
 
 
 
