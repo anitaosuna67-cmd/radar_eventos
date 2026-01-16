@@ -15,7 +15,7 @@ def check_password():
             st.session_state["password_correct"] = False
 
     if "password_correct" not in st.session_state:
-        st.markdown("<h3 style='color: #FFD700;'>🔒 PASSLINE INTEL</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='color: #FFD700;'>🔒 INTEL</h3>", unsafe_allow_html=True)
         st.text_input("INGRESE CLAVE DE ACCESO:", type="password", on_change=password_entered, key="password")
         return False
     elif not st.session_state["password_correct"]:
@@ -74,7 +74,7 @@ if not check_password():
 # ==========================================
 # HEADER
 # ==========================================
-st.title("⚡ PASSLINE INTELLIGENCE")
+st.title("⚡ INTELLIGENCE")
 st.caption(f"📅 REPORTE: {datetime.now().strftime('%d/%m/%Y')} | 🌍 MERCADO: ARGENTINA")
 
 # --- PESTAÑAS ---
@@ -121,7 +121,7 @@ with tab1:
         st.markdown("**Facturación Est:** $56.000 M")
         st.caption("Movistar Arena (Alta rotación).")
 
-    st.info("⚡ **PASSLINE TARGET:** El 10% restante ($28.000 M) está fragmentado en ticketeras chicas. Ahí está nuestro crecimiento inmediato (Boliches, Indie, Fiestas).")
+    st.info("⚡ **TARGET:** El 10% restante ($28.000 M) está fragmentado en ticketeras chicas. Ahí está nuestro crecimiento inmediato (Boliches, Indie, Fiestas).")
 
 # ==========================================
 # TAB 2: NOTICIAS (ORDENADAS)
@@ -332,4 +332,5 @@ with tab4:
             """)
     
    
+
 
