@@ -155,7 +155,7 @@ with tab1:
         st.markdown("**Foco:** Teatros y Movistar Arena.")
         st.caption("Mantiene estructura pero pierde innovación.")
 
-    st.info("💡 **INSIGHT ESTRATÉGICO:** Mientras AllAccess depende de que vengan artistas internacionales (riesgo dólar), Passline sostiene la industria nacional y la noche (flujo de caja constante)."
+    st.info("💡 **INSIGHT ESTRATÉGICO:** Mientras AllAccess depende de que vengan artistas internacionales (riesgo dólar), Passline sostiene la industria nacional y la noche (flujo de caja constante).")
 
 # ==========================================
 # TAB 2: NOTICIAS (ORDENADAS)
@@ -428,6 +428,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
