@@ -211,67 +211,48 @@ with tab2:
             st.warning("Sin noticias nuevas en este barrido.")
 
 # ==========================================
-# TAB 3: TENDENCIAS SOCIALES & TECH
-# ==========================================
-with tab3:
-    # 1. CÁLCULO DE FECHA (Para obligar al buscador a traer data nueva)
-    hoy = datetime.now()
-    hace_una_semana = (hoy - timedelta(days=7)).strftime('%Y-%m-%d')
-
-    col_social, col_tech = st.columns([1, 1])
-
-    with col_social:
-        st.subheader("🔥 PULSO SOCIAL (Filtro: Últimos 7 Días)")
-        
-        # TWITTER FIX: 
-        # Agregamos 'f=live' para ir a la pestaña 'Más Reciente'.
-        # Usamos .replace(" ", "%20") para asegurar que el link sea válido.
-        tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
-        tw_url_encoded = tw_query.replace(" ", "%20")
-        url_tw = f"https://twitter.com/search?q={tw_url_encoded}&src=typed_query&f=live"
-        
-        boton_link("🐦 X (TWITTER): VER 'MÁS RECIENTES'", url_tw)
-        
-        # TIKTOK FIX:
-        # Agregamos '&publish_time=7' que es el filtro de "Esta Semana".
-        url_tk = "https://www.tiktok.com/search?q=recitales%20argentina%202026&publish_time=7"
-        boton_link("🎵 TIKTOK: VIDEOS DE ESTA SEMANA", url_tk)
-
-        st.divider()
-        st.markdown("**Hashtags Clave:** [#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/)")
-
-    with col_tech:
-        st.subheader("🤖 RADAR TECH & ADS")
-        
-        url_tech = "https://news.google.com/rss/search?q=Novedades+Meta+Ads+Google+Ads+Algoritmo+Instagram+Marketing+Digital+when:15d&hl=es-419&gl=AR&ceid=AR:es-419"
-        
-        try:
-            feed_tech = feedparser.parse(url_tech)
-            if feed_tech.entries:
-                for entry in feed_tech.entries[:4]: 
-                    try:
-                        dt = datetime(*entry.published_parsed[:6])
-                        f_str = dt.strftime("%d/%m")
-                    except: f_str = "Hoy"
-                    
-                    st.info(f"📅 **{f_str}** | {entry.title}\n\n[🔗 Leer]({entry.link})")
-            else:
-                st.warning("Sin cambios de algoritmo reportados.")
-                st.markdown("[Status Meta Ads](https://status.fb.com/)")
-        except:
-            st.write("Error conectando con radar tech.")
-
-# ==========================================
-# TAB 4: MAPA DE CAZA (LEADS)
+# TAB 4:LEADS & NUEVOS JUGADORES
 # ==========================================
 with tab4:
-    st.subheader("🎯100 PRODUCTORAS")
-    st.markdown("Lista.")
-
-    # Botón a Passline Admin
-    st.link_button("⚡ IR AL ADMIN ", "https://home.passline.com/")
+    st.subheader("🎯 MAPA DE PRODUCTORAS")
     
-    with st.expander("📂 VER LISTADO COMPLETO (Click para abrir)"):
+    # --- SECCIÓN 1: CAZADOR DE OPORTUNIDADES (NUEVO) ---
+    st.markdown("### 🚀 RISING STARS & LANZAMIENTOS (El semillero)")
+    st.info("Utiliza estos atajos para detectar quién está entrando al mercado AHORA.")
+    
+    c_caza1, c_caza2, c_caza3 = st.columns(3)
+    
+    with c_caza1:
+        st.markdown("**🕵️‍♂️ EN LINKEDIN**")
+        # Busca gente que puso "Founder" + "Productora" en Argentina el último mes
+        url_linkedin = "https://www.linkedin.com/search/results/people/?keywords=Founder%20Productora%20Eventos&origin=GLOBAL_SEARCH_HEADER&sid=tW.&geoUrn=%5B%22100446985%22%5D"
+        boton_link("🔍 BUSCAR NUEVOS FOUNDERS", url_linkedin)
+        st.caption("Gente que actualizó su cargo recientemente.")
+
+    with c_caza2:
+        st.markdown("**📸 EN INSTAGRAM**")
+        # Busca perfiles nuevos o posteos de "Lanzamiento"
+        url_ig_lauch = "https://www.google.com/search?q=site:instagram.com+%22Lanzamiento%22+%22Entradas%22+%22Nueva+Fiesta%22+Argentina&tbs=qdr:m"
+        boton_link("🔍 DETECTAR LANZAMIENTOS (MES)", url_ig_lauch)
+        st.caption("Fiestas nuevas anunciadas este mes.")
+
+    with c_caza3:
+        st.markdown("**📺 STREAMERS & INFLUENCERS**")
+        # La nueva ola: Streamers haciendo eventos
+        st.write("Perfiles a monitorear:")
+        st.markdown("""
+        *   OLGA / Luzu TV (Eventos propios)
+        *   Streamers de Bover / La Cobra (Eventos deportivos)
+        *   Productores de Trap Independiente
+        """)
+
+    st.write("---")
+
+    # --- SECCIÓN 2: BASE DE DATOS ESTABLECIDA (TU LISTA ORIGINAL) ---
+    st.subheader("📂 BASE DE DATOS: 100 ESTABLECIDOS")
+    st.link_button("⚡ IR AL ADMIN PASSLINE", "https://home.passline.com/")
+    
+    with st.expander("Ver Listado Histórico (Majors & Federal)"):
         col_leads_1, col_leads_2 = st.columns(2)
         
         with col_leads_1:
@@ -426,6 +407,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
