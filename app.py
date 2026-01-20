@@ -111,7 +111,7 @@ with tab1:
     c_kpi2.metric(
         "Ticket Promedio Ponderado", 
         "$64.800", 
-        "Delta vs 2024: +112% (Inflación)"
+        "Suba vs 2024: +112% (Inflación)"
     )
     c_kpi3.metric(
         "Tickets Vendidos/Año", 
@@ -426,6 +426,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
