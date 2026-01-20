@@ -211,6 +211,61 @@ with tab2:
             st.warning("Sin noticias nuevas en este barrido.")
 
 # ==========================================
+# TAB 3: TENDENCIAS SOCIALES & TECH (ACTUALIZADO)
+# ==========================================
+with tab3:
+    # Cálculo de fechas
+    hoy = datetime.now()
+    hace_una_semana = (hoy - timedelta(days=7)).strftime('%Y-%m-%d')
+
+    c_social, c_tech = st.columns([1, 1])
+
+    with c_social:
+        st.subheader("🔥 PULSO SOCIAL (Conversación Real)")
+        st.caption("Filtro: Qué dicen los usuarios HOY.")
+        
+        # TWITTER: "Recitales" + "Entradas" (Quejas y Hype)
+        tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
+        url_tw = f"https://twitter.com/search?q={tw_query.replace(' ', '%20')}&src=typed_query&f=live"
+        boton_link("🐦 X: QUEJAS & HYPE (TICKETS)", url_tw)
+        
+        # TIKTOK: "Fiestas" + "Reviews" (Lo que se viraliza)
+        # Buscamos "Review Boliche" o "Vlog Fiesta" esta semana
+        url_tk = "https://www.tiktok.com/search?q=review%20boliche%20argentina%20fiesta&publish_time=7"
+        boton_link("🎵 TIKTOK: REVIEWS BOLICHES (7 DÍAS)", url_tk)
+
+        st.divider()
+        st.markdown("**Hashtags en alza:** #TechnoArgentina #TrapArgentino #ReviewDeFiestas")
+
+    with c_tech:
+        st.subheader("📱 UPDATE DE PLATAFORMAS")
+        st.caption("Novedades de Formatos, Algoritmos y Ads.")
+        
+        # Query refinada: Busca cambios técnicos en las plataformas
+        # Keywords: Actualización, Función, Algoritmo, Reels, Shorts, Monetización
+        q_tech = "(Instagram OR TikTok OR YouTube OR Twitter X) AND (Nuevas funciones OR Actualización OR Algoritmo OR Formatos OR Monetización) when:14d"
+        url_tech = f"https://news.google.com/rss/search?q={q_tech.replace(' ', '+')}&hl=es-419&gl=AR&ceid=AR:es-419"
+        
+        try:
+            feed_tech = feedparser.parse(url_tech)
+            if feed_tech.entries:
+                # Mostramos las 5 noticias más relevantes
+                for entry in feed_tech.entries[:5]: 
+                    st.info(f"⚡ **{entry.title}**\n\n[🔗 Leer Noticia]({entry.link})")
+            else:
+                st.warning("Sin novedades técnicas reportadas esta semana.")
+        except:
+            st.error("Error conectando con radar tech.")
+            
+        st.markdown("---")
+        st.markdown("#### 🧠 FUENTES OFICIALES")
+        st.markdown("""
+        *   [Instagram Creators (Blog)](https://about.instagram.com/blog/announcements)
+        *   [TikTok Newsroom](https://newsroom.tiktok.com/es-latam)
+        *   [YouTube Blog](https://blog.youtube/)
+        """)
+
+# ==========================================
 # TAB 4:LEADS & NUEVOS JUGADORES
 # ==========================================
 with tab4:
@@ -407,6 +462,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
