@@ -95,23 +95,23 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 ])
 
 # ==========================================
-# TAB 1: MARKET SHARE & DINERO (DATA HARDCORE)
+# TAB 1: MARKET SHARE & DINERO (VERSION CORREGIDA)
 # ==========================================
 with tab1:
     st.subheader("🏆 VALOR TOTAL DE MERCADO (Proyección 2026)")
     
-    # KPIs Generales (Ajustados a tu data real de 8.000M mensuales)
+    # KPIs Generales (Matemática corregida: 18.5M * 64.8k ~= 1.2B)
     c_kpi1, c_kpi2, c_kpi3 = st.columns(3)
     
     c_kpi1.metric(
-        "Volumen Anual Mercado", 
+        "Volumen Total Mercado", 
         "$1.2 Billones", 
-        "ARS (Total Industria)"
+        "ARS (Proyectado Industria)"
     )
     c_kpi2.metric(
-        "Ticket Promedio", 
-        "$38.500", 
-        "Ponderado (Estadio/Club)"
+        "Ticket Promedio Ponderado", 
+        "$64.800", 
+        "Delta vs 2024: +112% (Inflación)"
     )
     c_kpi3.metric(
         "Tickets Vendidos/Año", 
@@ -426,6 +426,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
