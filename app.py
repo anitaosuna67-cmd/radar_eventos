@@ -240,26 +240,49 @@ with tab3:
         st.divider()
         st.markdown("**Hashtags Clave:** [#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/)")
 
-    with col_tech:
-        st.subheader("🤖 RADAR TECH & ADS")
+     with col_tech:
+        st.subheader("🤖 RADAR TECH & TRENDS")
+        st.caption("Novedades de Algoritmos, Creators y Contenido (15 días)")
         
-        url_tech = "https://news.google.com/rss/search?q=Novedades+Meta+Ads+Google+Ads+Algoritmo+Instagram+Marketing+Digital+when:15d&hl=es-419&gl=AR&ceid=AR:es-419"
+        # QUERY MEJORADA:
+        # Busca: (Plataformas) + (Conceptos de Tendencia/Viral/Algoritmo)
+        # Filtro de tiempo: when:15d
+        q_tech = "(Instagram OR TikTok OR YouTube OR Reels) AND (Tendencias OR Viral OR Algoritmo OR Novedades OR Creators OR Updates) when:15d"
+        
+        # Generamos la URL codificando los espacios
+        url_tech = f"https://news.google.com/rss/search?q={q_tech.replace(' ', '+')}&hl=es-419&gl=AR&ceid=AR:es-419"
         
         try:
             feed_tech = feedparser.parse(url_tech)
             if feed_tech.entries:
-                for entry in feed_tech.entries[:4]: 
+                # Mostramos hasta 5 noticias para tener variedad
+                for entry in feed_tech.entries[:5]: 
                     try:
+                        # Intentamos parsear la fecha
                         dt = datetime(*entry.published_parsed[:6])
                         f_str = dt.strftime("%d/%m")
-                    except: f_str = "Hoy"
+                    except: 
+                        f_str = "Reciente"
                     
-                    st.info(f"📅 **{f_str}** | {entry.title}\n\n[🔗 Leer]({entry.link})")
+                    # Usamos st.info para que destaque como tarjeta
+                    st.info(f"📅 **{f_str}** | {entry.title}\n\n[🔗 Leer Noticia]({entry.link})")
             else:
-                st.warning("Sin cambios de algoritmo reportados.")
-                st.markdown("[Status Meta Ads](https://status.fb.com/)")
+                st.warning("Sin novedades relevantes en los últimos 15 días.")
         except:
-            st.write("Error conectando con radar tech.")
+            st.error("Error conectando con radar de tendencias.")
+
+        # --- SECCIÓN EXTRA: HERRAMIENTAS DE TRENDS ---
+        st.markdown("---")
+        st.markdown("#### ⚡ MONITOR DE TENDENCIAS EN VIVO")
+        c_t1, c_t2 = st.columns(2)
+        
+        with c_t1:
+            # Link directo a lo que busca la gente hoy en Argentina
+            st.link_button("📈 Google Trends AR", "https://trends.google.com/trends/trendingsearches/daily?geo=AR&hl=es")
+        
+        with c_t2:
+            # La herramienta oficial para ver música y videos virales
+            st.link_button("🎵 TikTok Creative", "https://ads.tiktok.com/business/creativecenter/inspiration/popular/pc/en")
 
 # ==========================================
 # TAB 4: MAPA DE CAZA (LEADS)
@@ -427,6 +450,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
