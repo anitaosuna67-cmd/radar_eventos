@@ -224,8 +224,6 @@ with tab3:
         st.subheader("🔥 PULSO SOCIAL (Filtro: Últimos 7 Días)")
         
         # TWITTER FIX: 
-        # Agregamos 'f=live' para ir a la pestaña 'Más Reciente'.
-        # Usamos .replace(" ", "%20") para asegurar que el link sea válido.
         tw_query = f"entradas argentina since:{hace_una_semana} (estafa OR precio OR fila OR agotado)"
         tw_url_encoded = tw_query.replace(" ", "%20")
         url_tw = f"https://twitter.com/search?q={tw_url_encoded}&src=typed_query&f=live"
@@ -233,20 +231,17 @@ with tab3:
         boton_link("🐦 X (TWITTER): VER 'MÁS RECIENTES'", url_tw)
         
         # TIKTOK FIX:
-        # Agregamos '&publish_time=7' que es el filtro de "Esta Semana".
         url_tk = "https://www.tiktok.com/search?q=recitales%20argentina%202026&publish_time=7"
         boton_link("🎵 TIKTOK: VIDEOS DE ESTA SEMANA", url_tk)
 
         st.divider()
         st.markdown("**Hashtags Clave:** [#RecitalesArgentina](https://www.instagram.com/explore/tags/recitalesargentina/)")
 
-     with col_tech:
+    with col_tech:
         st.subheader("🤖 RADAR TECH & TRENDS")
         st.caption("Novedades de Algoritmos, Creators y Contenido (15 días)")
         
         # QUERY MEJORADA:
-        # Busca: (Plataformas) + (Conceptos de Tendencia/Viral/Algoritmo)
-        # Filtro de tiempo: when:15d
         q_tech = "(Instagram OR TikTok OR YouTube OR Reels) AND (Tendencias OR Viral OR Algoritmo OR Novedades OR Creators OR Updates) when:15d"
         
         # Generamos la URL codificando los espacios
@@ -450,6 +445,7 @@ with tab5:
             st.link_button(f"🔥 VER PRINCIPALES QUEJAS", url_problemas)
             
             st.write(" ") # Espacio
+
 
 
 
